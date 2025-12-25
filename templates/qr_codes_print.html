@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>QR-коды для печати</title>
+    <style>
+        @media print {
+            .no-print { display: none; }
+            .qr-card { page-break-inside: avoid; }
+        }
+        body { font-family: Arial; margin: 20px; }
+        .qr-grid { 
+            display: grid; grid-template-columns: repeat(3, 1fr);
+            gap: 15px; 
+        }
+        .qr-card { 
+            border: 1px solid #000; padding: 10px; text-align: center;
+            font-size: 12px;
+        }
+        .qr-code { 
+            font-family: monospace; font-size: 16px; 
+            margin: 5px 0; font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="no-print" style="margin-bottom: 20px;">
+        <button onclick="window.print()">🖨️ Печать</button>
+        <button onclick="window.history.back()">← Назад</button>
+    </div>
+    
+    <h1>QR-коды инструментов - {{ datetime.now().strftime('%d.%m.%Y') }}</h1>
+    
+    {% for category, tools in tools_by_category.items() %}
+    <h2>{{ category }}</h2>
+    <div class="qr-grid">
+        {% for tool in tools %}
+        <div class="qr-card">
+            <strong>{{ tool.name }}</strong>
+            <div class="qr-code">{{ tool.qr_code_identifier }}</div>
+            <small>Место: {{ tool.location or '—' }}</small><br>
+            <small>Ссылка: {{ request.host_url }}tool/{{ tool.qr_code_identifier }}</small>
+        </div>
+        {% endfor %}
+    </div>
+    {% endfor %}
+</body>
+</html>

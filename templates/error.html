@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Ошибка {{ error_code }}</title>
+    <style>
+        body { font-family: Arial; text-align: center; padding: 50px; }
+        h1 { color: #d32f2f; font-size: 3em; }
+        .error-box { 
+            max-width: 600px; margin: 0 auto; padding: 30px;
+            background: #ffebee; border-radius: 10px; border: 1px solid #ffcdd2;
+        }
+    </style>
+</head>
+<body>
+    <div class="error-box">
+        <h1>Ошибка {{ error_code }}</h1>
+        <p style="font-size: 1.2em; margin: 20px 0;">{{ message }}</p>
+        <p><a href="/" style="color: #4CAF50; font-weight: bold;">Вернуться на главную</a></p>
+    </div>
+</body>
+</html>

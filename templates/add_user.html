@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Добавить пользователя</title>
+    <style>
+        /* Используйте те же стили, что и в add_tool.html */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+            background-color: #f5f5f5;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        
+        h1 {
+            color: #333;
+            border-bottom: 3px solid #4CAF50;
+            padding-bottom: 10px;
+            margin-bottom: 25px;
+        }
+        
+        .header-links {
+            margin-bottom: 20px;
+        }
+        
+        .header-links a {
+            display: inline-block;
+            margin-right: 15px;
+            padding: 8px 15px;
+            background: #4CAF50;
+            color: white;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+            color: #555;
+        }
+        
+        .form-group input,
+        .form-group select {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 14px;
+            box-sizing: border-box;
+        }
+        
+        .form-row {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+        
+        .form-row .form-group {
+            flex: 1;
+            margin-bottom: 0;
+        }
+        
+        .required:after {
+            content: " *";
+            color: #f44336;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
+        }
+        
+        .btn-submit {
+            background-color: #4CAF50;
+            color: white;
+            width: 100%;
+            margin-top: 20px;
+        }
+        
+        .btn-cancel {
+            background-color: #9E9E9E;
+            color: white;
+            margin-right: 10px;
+        }
+        
+        .form-help {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>👤 Добавить нового пользователя</h1>
+        
+        <div class="header-links">
+            <a href="/admin/users">← Назад к списку пользователей</a>
+            <a href="/admin/">📊 Админ панель</a>
+        </div>
+        
+        <form method="POST" action="/admin/add-user" id="addUserForm">
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="first_name" class="required">Имя</label>
+                    <input type="text" id="first_name" name="first_name" required 
+                           placeholder="Например: Иван">
+                </div>
+                
+                <div class="form-group">
+                    <label for="last_name" class="required">Фамилия</label>
+                    <input type="text" id="last_name" name="last_name" required 
+                           placeholder="Например: Петров">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" 
+                           placeholder="Например: ivan.petrov@company.com">
+                    <div class="form-help">Будет использоваться для уведомлений</div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="phone">Телефон</label>
+                    <input type="tel" id="phone" name="phone" 
+                           placeholder="Например: +7 (123) 456-78-90">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="employee_id">Табельный номер</label>
+                    <input type="text" id="employee_id" name="employee_id" 
+                           placeholder="Например: EMP001">
+                </div>
+                
+                <div class="form-group">
+                    <label for="department">Отдел</label>
+                    <input type="text" id="department" name="department" 
+                           placeholder="Например: Цех №1, Офис, Склад">
+                </div>
+            </div>
+            
+            <div class="form-row">
+                <div class="form-group">
+                    <label for="position">Должность</label>
+                    <input type="text" id="position" name="position" 
+                           placeholder="Например: Слесарь, Инженер, Кладовщик">
+                </div>
+            </div>
+            
+            <div class="form-help">
+                <strong>Примечание:</strong> Пользователь будет добавлен с активным статусом и сможет сразу брать инструменты
+            </div>
+            
+            <div class="form-buttons">
+                <a href="/admin/users" class="btn btn-cancel">Отмена</a>
+                <button type="submit" class="btn btn-submit">Добавить пользователя</button>
+            </div>
+        </form>
+    </div>
+    
+    <script>
+        // Обработка отправки формы (аналогично add_tool.html)
+        document.getElementById('addUserForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = new FormData(this);
+            
+            fetch('/admin/add-user', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.success) {
+                    alert('✅ Пользователь успешно добавлен!');
+                    window.location.href = '/admin/users';
+                } else {
+                    alert('Ошибка: ' + data.message);
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                alert('Произошла ошибка при отправке формы');
+            });
+        });
+    </script>
+</body>
+</html>

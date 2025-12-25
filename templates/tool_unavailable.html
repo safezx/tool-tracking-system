@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Инструмент занят</title>
+    <style>
+        body { font-family: Arial; max-width: 500px; margin: 50px auto; padding: 20px; }
+        .unavailable-box { 
+            padding: 30px; background: #fff3e0; border-radius: 10px;
+            border: 1px solid #ffcc80; text-align: center;
+        }
+        .user-info { background: #f5f5f5; padding: 15px; border-radius: 5px; margin: 20px 0; }
+    </style>
+</head>
+<body>
+    <div class="unavailable-box">
+        <h1 style="color: #f57c00;">⚠️ Инструмент занят</h1>
+        <h2>{{ tool.name }}</h2>
+        
+        <div class="user-info">
+            <p><strong>Взят пользователем:</strong></p>
+            <p style="font-size: 1.2em;">{{ user.full_name() }}</p>
+            <p>Отдел: {{ user.department or 'Не указан' }}</p>
+            {% if user.employee_id %}
+            <p>Табельный №: {{ user.employee_id }}</p>
+            {% endif %}
+        </div>
+        
+        <p>Дата выдачи: {{ request.approval_time.strftime('%d.%m.%Y %H:%M') }}</p>
+        {% if request.expected_return_time %}
+        <p>Ожидаемый возврат: {{ request.expected_return_time.strftime('%d.%m.%Y') }}</p>
+        {% endif %}
+        
+        <p style="margin-top: 30px;">
+            <a href="/" style="color: #4CAF50; font-weight: bold;">На главную</a> | 
+            <a href="/admin/" style="color: #2196F3;">В статистику</a>
+        </p>
+    </div>
+</body>
+</html>
